@@ -20,8 +20,8 @@ func main(){
 	var address = fmt.Sprintf(":%s", port)
 	var router = httprouter.New()
 	
-	router.GET("/hello", internal.Hello)
-	router.GET("/hello/:name", internal.HelloWithName)
+	router.GET("/hello", internal.HandleCORS(internal.Hello))
+	router.GET("/hello/:name", internal.HandleCORS(internal.HelloWithName))
 
 	fmt.Printf("The app listens on port %s\n", port)
 	log.Fatal(http.ListenAndServe(address, router))

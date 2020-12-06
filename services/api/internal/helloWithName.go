@@ -15,6 +15,7 @@ func HelloWithName(w http.ResponseWriter, r *http.Request, p httprouter.Params) 
 	var name = p.ByName("name")
 
 	if name == "" {
+		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(NewResponse(http.StatusBadRequest, fmt.Errorf("Error: Bad Request")))
 		return
 	}

@@ -1,5 +1,6 @@
 const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack')
 
 module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.js'),
@@ -10,23 +11,26 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            "presets": [
-              "@babel/preset-env",
-              "@babel/preset-react"
-            ]
-          }
-        }
+        loader: "babel-loader"
       }
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      API_BASE_URL: JSON.stringify(process.env.API_BASE_URL),
+    }),
     new htmlWebpackPlugin({
       template: path.resolve(__dirname, 'src', 'index.html'),
     })
   ],
+  resolve: {
+    alias: {
+      "@src": path.resolve(__dirname, 'src'),
+      "@components": path.resolve(__dirname, 'src', 'components'),
+      "@utils": path.resolve(__dirname, 'src', 'utils'),
+    },
+  },
   devServer: {
     hot: true,
     port: 8080,

@@ -22,6 +22,9 @@ services:
       dockerfile: ./ui/deployments/ui.dev.dockerfile
     ports:
       - "8080:8080"
+    environment:
+      - NODE_ENV=development
+      - API_BASE_URL=http://localhost:3000
     volumes:
       - type: bind
         source: ./services/ui
