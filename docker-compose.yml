@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  api:
+    container_name: ${PROJECT:-microservices-in-action}-api
+    image: microservices-in-action/api:dev
+    build:
+      context: ./services
+      dockerfile: ./api/deployments/api.dev.dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - type: bind
+        source: ./services/api
+        target: /go/src/app
+    restart: on-failure
+  ui:
+    container_name: ${PROJECT:-microservices-in-action}-ui
+    image: microservices-in-action/ui:dev
+    build:
+      context: ./services
+      dockerfile: ./ui/deployments/ui.dev.dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - type: bind
+        source: ./services/ui
+        target: /app
+    tty: true
+    restart: on-failure
+    depends_on: 
+      - api
