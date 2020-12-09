@@ -16,9 +16,9 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.DefinePlugin({
-      NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-      API_BASE_URL: JSON.stringify(process.env.API_BASE_URL),
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: process.env.NODE_ENV,
+      API_BASE_URL: process.env.API_BASE_URL,
     }),
     new htmlWebpackPlugin({
       template: path.resolve(__dirname, 'src', 'index.html'),
