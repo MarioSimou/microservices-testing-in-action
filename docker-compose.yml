@@ -1,5 +1,8 @@
 version: "3.7"
 
+volumes:
+  broker_db_data:
+
 services:
   api:
     container_name: ${PROJECT:-microservices-in-action}-api
@@ -33,3 +36,30 @@ services:
     restart: on-failure
     depends_on: 
       - api
+  broker-db:
+    container_name: broker-db
+    image: postgres:12
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=$USER
+      - POSTGRES_PASSWORD=$USER
+      - POSTGRES_DB=postgres
+    volumes:
+      - type: volume
+        source: broker_db_data
+        target: /var/lib/postgresql/data
+  broker:
+    container_name: broker
+    image: pactfoundation/pact-broker:latest
+    ports:
+      - "9292:9292"
+    environment:
+      - PACT_BROKER_DATABASE_URL=postgresql://${USER}:${USER}@broker-db:5432/postgres
+      - PACT_BROKER_BASIC_AUTH_USERNAME=${USER}
+      - PACT_BROKER_BASIC_AUTH_PASSWORD=${USER}
+      - PACT_BROKER_LOG_LEVEL=INFO
+      - PACT_BROKER_PORT=9292
+    restart: on-failure
+    depends_on:
+      - broker-db

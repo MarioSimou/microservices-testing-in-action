@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "config": {
+    "pact_do_not_track": true
+  },
   "scripts": {
     "dev": "webpack serve --config webpack.config.dev.js",
     "unit": "jest --config jest.config.js",
@@ -14,6 +17,7 @@
   "dependencies": {
     "@babel/cli": "^7.12.8",
     "@babel/core": "^7.12.9",
+    "@pact-foundation/pact": "^9.13.0",
     "axios": "^0.21.0",
     "babel-loader": "^8.2.2",
     "core-js": "^3.8.1",
@@ -32,6 +36,7 @@
     "html-webpack-plugin": "^4.5.0",
     "jest": "^26.6.3",
     "jest-dom": "^4.0.0",
+    "jest-pact": "^0.8.1",
     "webpack-dev-server": "^3.11.0"
   }
 }
