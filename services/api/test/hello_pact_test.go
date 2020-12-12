@@ -28,8 +28,15 @@ func runServer(){
 		w.Header().Add("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(internal.NewResponse(http.StatusOK, "hello"))
 	}
-	router.GET("/hello", helloHandler)
+	var helloWithNameHandler = func(w http.ResponseWriter, r *http.Request, p httprouter.Params){
+		w.Header().Add("Access-Control-Allow-Origin", "*")
+		w.Header().Add("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(internal.NewResponse(http.StatusOK, "hello John"))
+	}
 
+	router.GET("/hello", helloHandler)
+	router.GET("/hello/john", helloWithNameHandler)
+	
 	http.ListenAndServe(address, router)
 }
 
@@ -52,7 +59,6 @@ func (hps *helloPactSuite) TestHelloPact(){
 	var t = hps.T()
 	var verifyConsumer = types.VerifyRequest{
 		ProviderBaseURL: "http://localhost:3000",
-		// Tags: []string{"master", "latest"},
 		FailIfNoPactsFound: false,
 		BrokerURL: brokerURL,
 		BrokerUsername: brokerUsername,

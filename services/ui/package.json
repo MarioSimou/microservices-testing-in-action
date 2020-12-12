@@ -11,7 +11,7 @@
     "test:unit": "jest --config jest.config.js --rootDir ./src",
     "test:unit:mocks": "jest --config jest.config.js --rootDir ./test/setup",
     "test:contract": "jest --config jest.config.js --rootDir ./test/contract",
-    "test:contract:publish": "pact-broker publish --consumer-app-version=1.0.0 --broker-base-url $BROKER_URL --broker-password $BROKER_PASSWORD --broker-username $BROKER_USERNAME ./test/contract/pact"
+    "test:contract:publish": "pact-broker publish --consumer-app-version=1.0.1 --broker-base-url $BROKER_URL --broker-password $BROKER_PASSWORD --broker-username $BROKER_USERNAME ./test/contract/pact"
   },
   "keywords": [],
   "author": "",

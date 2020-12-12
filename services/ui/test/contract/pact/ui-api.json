@@ -7,7 +7,7 @@
   },
   "interactions": [
     {
-      "description": "hello success",
+      "description": "hello",
       "request": {
         "method": "GET",
         "path": "/hello"
@@ -15,13 +15,34 @@
       "response": {
         "status": 200,
         "headers": {
-          "Access-Control-Allow-Origin": "*"
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json"
         },
         "body": {
           "status": 200,
           "success": true,
           "message": "",
           "data": "hello"
+        }
+      }
+    },
+    {
+      "description": "helloWithName",
+      "request": {
+        "method": "GET",
+        "path": "/hello/john"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "status": 200,
+          "success": true,
+          "message": "",
+          "data": "hello John"
         }
       }
     }
