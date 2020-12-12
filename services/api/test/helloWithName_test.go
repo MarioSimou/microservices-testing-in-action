@@ -1,7 +1,8 @@
-package internal
+package test
 
 import (
 	"encoding/json"
+	"hello-world/internal"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -11,19 +12,34 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type helloSuite struct {
+type helloWithNameSuite struct {
 	suite.Suite
 }
 
-func (hs *helloSuite) TestHello(){
+func (hs *helloWithNameSuite) TestHelloWithName(){
 	var table = []struct{
-		expectedResponse ResponseBody
+		expectedResponse internal.ResponseBody
+		params httprouter.Params
 	}{
 		{
-			expectedResponse: ResponseBody{
+			params: httprouter.Params{},
+			expectedResponse: internal.ResponseBody{
+				Status: 400,
+				Success: false,
+				Message: "Error: Bad Request",
+			},
+		},
+		{
+			params: httprouter.Params{
+				httprouter.Param{
+					Key:"name",
+					Value: "john", 
+				},
+			},
+			expectedResponse: internal.ResponseBody{
 				Status: 200,
 				Success: true,
-				Data: "hello",
+				Data: "hello John",
 			},
 		},
 	}
@@ -34,11 +50,10 @@ func (hs *helloSuite) TestHello(){
 	for _, row := range table {
 		var w = httptest.NewRecorder()
 		var r = httptest.NewRequest(http.MethodGet, "/", nil)
-		var p = httprouter.Params{}
 
-		Hello(w, r, p)
+		internal.HelloWithName(w, r, row.params)
 		var result = w.Result()
-		var resBody ResponseBody
+		var resBody internal.ResponseBody
 
 		if e := json.NewDecoder(result.Body).Decode(&resBody); e != nil {
 			t.Errorf("Error: Invalid object for decoding\n")
@@ -49,6 +64,6 @@ func (hs *helloSuite) TestHello(){
 	}
 }
 
-func TestHelloSuite(t *testing.T){
-	suite.Run(t, new(helloSuite))
+func TestHelloWithNameSuite(t *testing.T){
+	suite.Run(t, new(helloWithNameSuite))
 }

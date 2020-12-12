@@ -20,6 +20,7 @@ module.exports = {
         "@src": path.resolve(__dirname, 'src'),
         "@components": path.resolve(__dirname, 'src', 'components'),
         "@utils": path.resolve(__dirname, 'src', 'utils'),
+        "@test": path.resolve(__dirname, 'test'),
       },
     }]
   ]

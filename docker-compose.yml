@@ -12,6 +12,10 @@ services:
       dockerfile: ./api/deployments/api.dev.dockerfile
     ports:
       - "3000:3000"
+    environment:
+      - BROKER_URL=http://localhost:9292
+      - BROKER_USERNAME=$USER
+      - BROKER_PASSWORD=$USER
     volumes:
       - type: bind
         source: ./services/api
@@ -28,6 +32,9 @@ services:
     environment:
       - NODE_ENV=development
       - API_BASE_URL=http://localhost:3000
+      - BROKER_URL=http://localhost:9292
+      - BROKER_USERNAME=$USER
+      - BROKER_PASSWORD=$USER
     volumes:
       - type: bind
         source: ./services/ui

@@ -1,7 +1,8 @@
-package internal
+package test
 
 import (
 	"fmt"
+	"hello-world/internal"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -16,12 +17,12 @@ func (hs *newResponseSuite) TestNewResponse(){
 	var table = []struct{
 		status int
 		data interface{}
-		expectedResponse *ResponseBody
+		expectedResponse *internal.ResponseBody
 	}{
 		{
 			status: 200,
 			data: "hello",
-			expectedResponse: &ResponseBody{
+			expectedResponse: &internal.ResponseBody{
 				Status: 200,
 				Success: true,
 				Data: "hello",
@@ -30,7 +31,7 @@ func (hs *newResponseSuite) TestNewResponse(){
 		{
 			status: 400,
 			data: fmt.Errorf("Error: Bad Request"),
-			expectedResponse: &ResponseBody{
+			expectedResponse: &internal.ResponseBody{
 				Status: 400,
 				Success: false,
 				Message: "Error: Bad Request",
@@ -42,7 +43,7 @@ func (hs *newResponseSuite) TestNewResponse(){
 	var assert = assert.New(t)
 
 	for _, row := range table {
-		assert.Equal(NewResponse(row.status, row.data), row.expectedResponse)
+		assert.Equal(internal.NewResponse(row.status, row.data), row.expectedResponse)
 	}
 }
 

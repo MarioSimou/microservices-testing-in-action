@@ -1,4 +1,4 @@
-package internal
+package test
 
 import (
 	"encoding/json"
@@ -6,39 +6,26 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"hello-world/internal"
+
 	"github.com/julienschmidt/httprouter"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 )
 
-type helloWithNameSuite struct {
+type helloSuite struct {
 	suite.Suite
 }
 
-func (hs *helloWithNameSuite) TestHelloWithName(){
+func (hs *helloSuite) TestHello(){
 	var table = []struct{
-		expectedResponse ResponseBody
-		params httprouter.Params
+		expectedResponse internal.ResponseBody
 	}{
 		{
-			params: httprouter.Params{},
-			expectedResponse: ResponseBody{
-				Status: 400,
-				Success: false,
-				Message: "Error: Bad Request",
-			},
-		},
-		{
-			params: httprouter.Params{
-				httprouter.Param{
-					Key:"name",
-					Value: "john", 
-				},
-			},
-			expectedResponse: ResponseBody{
+			expectedResponse: internal.ResponseBody{
 				Status: 200,
 				Success: true,
-				Data: "hello John",
+				Data: "hello",
 			},
 		},
 	}
@@ -49,10 +36,11 @@ func (hs *helloWithNameSuite) TestHelloWithName(){
 	for _, row := range table {
 		var w = httptest.NewRecorder()
 		var r = httptest.NewRequest(http.MethodGet, "/", nil)
+		var p = httprouter.Params{}
 
-		HelloWithName(w, r, row.params)
+		internal.Hello(w, r, p)
 		var result = w.Result()
-		var resBody ResponseBody
+		var resBody internal.ResponseBody
 
 		if e := json.NewDecoder(result.Body).Decode(&resBody); e != nil {
 			t.Errorf("Error: Invalid object for decoding\n")
@@ -63,6 +51,6 @@ func (hs *helloWithNameSuite) TestHelloWithName(){
 	}
 }
 
-func TestHelloWithNameSuite(t *testing.T){
-	suite.Run(t, new(helloWithNameSuite))
+func TestHelloSuite(t *testing.T){
+	suite.Run(t, new(helloSuite))
 }
