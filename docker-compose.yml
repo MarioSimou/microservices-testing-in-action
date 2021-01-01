@@ -1,4 +1,4 @@
-version: "3.7"
+version: '3.7'
 
 volumes:
   broker_db_data:
@@ -8,10 +8,10 @@ services:
     container_name: ${PROJECT:-microservices-in-action}-api
     image: microservices-in-action/api:dev
     build:
-      context: ./services
-      dockerfile: ./api/deployments/api.dev.dockerfile
+      context: ./services/api
+      dockerfile: ./deployments/api.dev.dockerfile
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - BROKER_URL=http://localhost:9292
       - BROKER_USERNAME=$USER
@@ -25,10 +25,10 @@ services:
     container_name: ${PROJECT:-microservices-in-action}-ui
     image: microservices-in-action/ui:dev
     build:
-      context: ./services
-      dockerfile: ./ui/deployments/ui.dev.dockerfile
+      context: ./services/ui
+      dockerfile: ./deployments/ui.dev.dockerfile
     ports:
-      - "8080:8080"
+      - '8080:8080'
     environment:
       - NODE_ENV=development
       - API_BASE_URL=http://localhost:3000
@@ -41,13 +41,13 @@ services:
         target: /app
     tty: true
     restart: on-failure
-    depends_on: 
+    depends_on:
       - api
   broker-db:
     container_name: broker-db
     image: postgres:12
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
       - POSTGRES_USER=$USER
       - POSTGRES_PASSWORD=$USER
@@ -60,7 +60,7 @@ services:
     container_name: broker
     image: pactfoundation/pact-broker:latest
     ports:
-      - "9292:9292"
+      - '9292:9292'
     environment:
       - PACT_BROKER_DATABASE_URL=postgresql://${USER}:${USER}@broker-db:5432/postgres
       - PACT_BROKER_BASIC_AUTH_USERNAME=${USER}

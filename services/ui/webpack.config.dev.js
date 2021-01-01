@@ -1,6 +1,6 @@
-const path = require('path')
-const htmlWebpackPlugin = require('html-webpack-plugin')
-const webpack = require('webpack')
+const path = require('path');
+const htmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.js'),
@@ -11,24 +11,24 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: "babel-loader"
-      }
-    ]
+        loader: 'babel-loader',
+      },
+    ],
   },
   plugins: [
     new webpack.EnvironmentPlugin({
-      NODE_ENV: process.env.NODE_ENV,
-      API_BASE_URL: process.env.API_BASE_URL,
+      NODE_ENV: process.env.NODE_ENV || 'development',
+      API_BASE_URL: process.env.API_BASE_URL || 'http://localhost:3000',
     }),
     new htmlWebpackPlugin({
       template: path.resolve(__dirname, 'src', 'index.html'),
-    })
+    }),
   ],
   resolve: {
     alias: {
-      "@src": path.resolve(__dirname, 'src'),
-      "@components": path.resolve(__dirname, 'src', 'components'),
-      "@utils": path.resolve(__dirname, 'src', 'utils'),
+      '@src': path.resolve(__dirname, 'src'),
+      '@components': path.resolve(__dirname, 'src', 'components'),
+      '@utils': path.resolve(__dirname, 'src', 'utils'),
     },
   },
   devServer: {
@@ -36,8 +36,8 @@ module.exports = {
     port: 8080,
     liveReload: true,
     inline: true,
-    host: "0.0.0.0",
+    host: '0.0.0.0',
     historyApiFallback: true,
     disableHostCheck: true,
-  }
-}
+  },
+};

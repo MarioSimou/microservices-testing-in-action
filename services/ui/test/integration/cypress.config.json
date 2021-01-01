@@ -1,0 +1,16 @@
+{
+    "defaultCommandTimeout": 10000,
+    "pageLoadTimeout": 10000,
+    "requestTimeout": 10000,
+    "execTimeout": 60000,
+    "baseUrl": "http://localhost:8080",
+    "watchForFileChanges": true,
+    "fixturesFolder": "test/integration/fixtures",
+    "integrationFolder": "test/integration/suites",
+    "testFiles": "**/*.spec.js",
+    "video": false,
+    "env": {
+        "MODE": "integration"
+    },
+    "retries": 2
+}

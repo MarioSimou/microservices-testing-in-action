@@ -1,0 +1,16 @@
+{
+    "defaultCommandTimeout": 10000,
+    "pageLoadTimeout": 10000,
+    "requestTimeout": 10000,
+    "execTimeout": 60000,
+    "baseUrl": "http://localhost:8080",
+    "watchForFileChanges": true,
+    "fixturesFolder": "test/functional/fixtures",
+    "integrationFolder": "test/functional/suites",
+    "testFiles": "**/*.spec.js",
+    "video": false,
+    "env": {
+        "MODE": "functional"
+    },
+    "retries": 1
+}

@@ -2,6 +2,7 @@ package internal
 
 import (
 	"encoding/json"
+	"regexp"
 	"fmt"
 	"net/http"
 	"strings"
@@ -13,8 +14,9 @@ func HelloWithName(w http.ResponseWriter, r *http.Request, p httprouter.Params) 
 	w.Header().Add("Content-Type", "application/json")
 
 	var name = p.ByName("name")
+	var regex = regexp.MustCompile("^\\w+$")
 
-	if name == "" {
+	if !regex.MatchString(name) {
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(NewResponse(http.StatusBadRequest, fmt.Errorf("Error: Bad Request")))
 		return

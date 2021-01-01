@@ -1,45 +1,31 @@
-package test
+package unit
 
 import (
 	"encoding/json"
-	"hello-world/internal"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"hello-world/internal"
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 )
 
-type helloWithNameSuite struct {
+type helloSuite struct {
 	suite.Suite
 }
 
-func (hs *helloWithNameSuite) TestHelloWithName(){
+func (hs *helloSuite) TestHello(){
 	var table = []struct{
 		expectedResponse internal.ResponseBody
-		params httprouter.Params
 	}{
 		{
-			params: httprouter.Params{},
-			expectedResponse: internal.ResponseBody{
-				Status: 400,
-				Success: false,
-				Message: "Error: Bad Request",
-			},
-		},
-		{
-			params: httprouter.Params{
-				httprouter.Param{
-					Key:"name",
-					Value: "john", 
-				},
-			},
 			expectedResponse: internal.ResponseBody{
 				Status: 200,
 				Success: true,
-				Data: "hello John",
+				Data: "hello",
 			},
 		},
 	}
@@ -50,8 +36,9 @@ func (hs *helloWithNameSuite) TestHelloWithName(){
 	for _, row := range table {
 		var w = httptest.NewRecorder()
 		var r = httptest.NewRequest(http.MethodGet, "/", nil)
+		var p = httprouter.Params{}
 
-		internal.HelloWithName(w, r, row.params)
+		internal.Hello(w, r, p)
 		var result = w.Result()
 		var resBody internal.ResponseBody
 
@@ -64,6 +51,6 @@ func (hs *helloWithNameSuite) TestHelloWithName(){
 	}
 }
 
-func TestHelloWithNameSuite(t *testing.T){
-	suite.Run(t, new(helloWithNameSuite))
+func TestHelloSuite(t *testing.T){
+	suite.Run(t, new(helloSuite))
 }

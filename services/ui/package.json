@@ -7,11 +7,19 @@
     "pact_do_not_track": true
   },
   "scripts": {
-    "dev": "webpack serve --config webpack.config.dev.js",
+    "start:dev": "webpack serve --config webpack.config.dev.js",
     "test:unit": "jest --config jest.config.js --rootDir ./src",
     "test:unit:mocks": "jest --config jest.config.js --rootDir ./test/setup",
     "test:contract": "jest --config jest.config.js --rootDir ./test/contract",
-    "test:contract:publish": "pact-broker publish --consumer-app-version=1.0.1 --broker-base-url $BROKER_URL --broker-password $BROKER_PASSWORD --broker-username $BROKER_USERNAME ./test/contract/pact"
+    "test:contract:publish": "pact-broker publish --consumer-app-version=1.0.1 --broker-base-url $BROKER_URL --broker-password $BROKER_PASSWORD --broker-username $BROKER_USERNAME ./test/contract/pact",
+    "test:functional": "start-server-and-test start:dev :8080 cypress:functional",
+    "test:functional:open": "start-server-and-test start:dev :8080 cypress:functional:open",
+    "test:integration": "start-server-and-test start:dev :8080 cypress:integration",
+    "test:integration:open": "start-server-and-test start:dev :8080 cypress:integration:open",
+    "cypress:functional": "cypress run --config-file ./test/functional/cypress.config.json",
+    "cypress:functional:open": "cypress open --config-file ./test/functional/cypress.config.json",
+    "cypress:integration": "cypress run --config-file ./test/integration/cypress.config.json",
+    "cypress:integration:open": "cypress open --config-file ./test/integration/cypress.config.json"
   },
   "keywords": [],
   "author": "",
@@ -35,11 +43,13 @@
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "babel-plugin-module-resolver": "^4.0.0",
+    "cypress": "^6.2.0",
     "html-webpack-plugin": "^4.5.0",
     "jest": "^26.6.3",
     "jest-dom": "^4.0.0",
     "jest-pact": "^0.8.1",
     "nock": "^13.0.5",
+    "start-server-and-test": "^1.11.7",
     "webpack-dev-server": "^3.11.0"
   }
 }
